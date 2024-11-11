@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -171,20 +173,23 @@ app.get('/stocks', (req, res) => {
 });
 
 // Endpoint 2: Sort stocks by pricing
-function sortStocksByPricing(stockObj, price) {
-  if (price === 1) {
+function sortStocksByPricing(stockObj, priceOrder) {
+  if (priceOrder === 1) {
     // High-to-low sorting
-    return stockObj.sort((a, b) => b.price - a.price);
+    stockObj.sort((a, b) => b.price - a.price);
   } else {
     // Low-to-high sorting
-    return stockObj.sort((a, b) => a.price - b.price);
+    stockObj.sort((a, b) => a.price - b.price);
   }
+  return stockObj;
 }
 
+// Endpoint to get stocks sorted by pricing
 app.get('/stocks/sort/pricing', (req, res) => {
-  let pricing = parseInt(req.query.pricing);
-  let sortedStocks = sortStocksByPricing(stocks.slice(), pricing);
-  res.json({ stocks: sortedStocks });
+  let pricing = parseInt(req.query.pricing); 
+  let sortedStocks = stocks.slice(); 
+  sortStocksByPricing(sortedStocks, pricing); 
+  res.json({ stocks: sortedStocks }); 
 });
 
 // Endpoint 3: Sort stocks by growth
