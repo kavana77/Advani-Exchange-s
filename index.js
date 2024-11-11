@@ -194,13 +194,13 @@ app.get('/stocks/sort/pricing', (req, res) => {
 
 // Endpoint 3: Sort stocks by growth
 function sortStocksByGrowth(stockObj, growth) {
-  if (growth === 1) {
-    // High-to-low sorting
-    return stockObj.sort((a, b) => b.growth - a.growth);
+  let sortedStocks;
+  if (growth === 'high-to-low') {
+    sortedStocks = stockObj.sort((a, b) => b.growth - a.growth);
   } else {
-    // Low-to-high sorting
-    return stockObj.sort((a, b) => a.growth - b.growth);
+    sortedStocks = stockObj.sort((a, b) => a.growth - b.growth);
   }
+  return sortedStocks
 }
 
 app.get('/stocks/sort/growth', (req, res) => {
