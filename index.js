@@ -175,11 +175,11 @@ app.get('/stocks', (req, res) => {
 // Endpoint 2: Sort stocks by pricing
 function sortStocksByPricing(stockObj, priceOrder) {
   if (priceOrder ==='high-to-low' ) {
-    // High-to-low sorting
     stockObj.sort((a, b) => b.price - a.price);
-  } else {
-    // Low-to-high sorting
+  } else if (priceOrder === 'low-to-high') {
     stockObj.sort((a, b) => a.price - b.price);
+  }else{
+    return 0;
   }
   return stockObj;
 }
