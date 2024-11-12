@@ -169,10 +169,10 @@ let stocks = [
   },
 ];
 app.get('/stocks', (req, res) => {
-  res.json({ stocks });
+  res.json({stocks: stocks });
 });
 
-// Endpoint 2: Sort stocks by pricing
+// Endpoint 1: Sort stocks by pricing
 function sortStocksByPricing(stock1, stock2, pricing) {
   if (pricing === 'low-to-high') {
     return stock1.price - stock2.price;
@@ -183,7 +183,6 @@ function sortStocksByPricing(stock1, stock2, pricing) {
   }
 }
 
-// Endpoint to get stocks sorted by pricing
 app.get('/stocks/sort/pricing', (req, res) => {
   let pricing = req.query.pricing; 
   let stockCopy = stocks.slice(); 
@@ -191,7 +190,7 @@ app.get('/stocks/sort/pricing', (req, res) => {
   res.json({ stocks: result }); 
 });
 
-// Endpoint 3: Sort stocks by growth
+// Endpoint 2: Sort stocks by growth
 function sortStocksByGrowth(stock1,stock2, growth) {
   if (growth === 'high-to-low') {
     return stock2.growth - stock1.growth
@@ -208,10 +207,10 @@ app.get('/stocks/sort/growth', (req, res) => {
   res.json({ stocks: result });
 });
 
-// Endpoint 4: Filter stocks by exchange (NSE/BSE)
+// Endpoint 3: Filter stocks by exchange (NSE/BSE)
 function filterByExchange(stockObj, exchange) {
   return stockObj.filter(
-    (stock) => stock.exchange.toLowerCase() === exchange.toLowerCase()
+    (stock) => (stock.exchange).toLowerCase() === (exchange).toLowerCase()
   );
 }
 
@@ -221,10 +220,10 @@ app.get('/stocks/filter/exchange', (req, res) => {
   res.json({ stocks: filteredStocks });
 });
 
-// Endpoint 5: Filter stocks by industry
+// Endpoint 4: Filter stocks by industry
 function filterByIndustry(stockObj, industry) {
   return stockObj.filter(
-    (stock) => stock.industry.toLowerCase() === industry.toLowerCase()
+    (stock) => (stock.industry).toLowerCase() === (industry).toLowerCase()
   );
 }
 
