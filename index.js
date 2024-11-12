@@ -173,40 +173,39 @@ app.get('/stocks', (req, res) => {
 });
 
 // Endpoint 2: Sort stocks by pricing
-function sortStocksByPricing(stockObj, priceOrder) {
-  if (priceOrder ==='high-to-low' ) {
-    stockObj.sort((a, b) => b.price - a.price);
-  } else if (priceOrder === 'low-to-high') {
-    stockObj.sort((a, b) => a.price - b.price);
-  }else{
+function sortStocksByPricing(stock1, stock2, pricing) {
+  if (pricing === 'low-to-high') {
+    return stock1.price - stock2.price;
+  } else if (pricing === 'high-to-low') {
+    return stock2.price - stock1.price;
+  } else {
     return 0;
   }
-  return stockObj;
 }
 
 // Endpoint to get stocks sorted by pricing
 app.get('/stocks/sort/pricing', (req, res) => {
-  let pricing = parseInt(req.query.pricing); 
-  let sortedStocks = stocks.slice(); 
-  sortStocksByPricing(sortedStocks, pricing); 
-  res.json({ stocks: sortedStocks }); 
+  let pricing = req.query.pricing; 
+  let stockCopy = stocks.slice(); 
+  let result = stockCopy.sort((stock1,stock2)=>sortStocksByPricing(stock1,stock2,pricing)) 
+  res.json({ stocks: result }); 
 });
 
 // Endpoint 3: Sort stocks by growth
-function sortStocksByGrowth(stockObj, growth) {
-  let sortedStocks;
+function sortStocksByGrowth(stock1,stock2, growth) {
   if (growth === 'high-to-low') {
-    sortedStocks = stockObj.sort((a, b) => b.growth - a.growth);
-  } else {
-    sortedStocks = stockObj.sort((a, b) => a.growth - b.growth);
+    return stock2.growth - stock1.growth
+  } else if(growth === 'low-to-high'){
+    return stock1.growth - stock2.growth
   }
-  return sortedStocks
+  return 0;
 }
 
 app.get('/stocks/sort/growth', (req, res) => {
-  let growth = parseInt(req.query.growth);
-  let sortedStocks = sortStocksByGrowth(stocks.slice(), growth);
-  res.json({ stocks: sortedStocks });
+  let growth = req.query.growth;
+  let stockCopy = stocks.slice();
+  let result = stockCopy.sort((stock1,stock2)=>sortStocksByGrowth(stock1,stock2,growth))
+  res.json({ stocks: result });
 });
 
 // Endpoint 4: Filter stocks by exchange (NSE/BSE)
